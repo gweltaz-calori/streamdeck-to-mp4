@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Youtube</title>
+    
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    
+    <div class="group">
+      <span class="downloading">Downloading Video</span>
+      <div class="row">
+        <div class="progress">
+          <div class="progress-inner"></div>
+        </div>
+        <span class="progress-text"></span>
+      </div>
+    </div>
+    <div class="group-ytb">
+      <span>Updating youtube-dl</span>
+      <div class="row">
+        <div class="progress">
+          <div class="progress-inner progress-inner-version"></div>
+        </div>
+        <span class="progress-text progress-text-version"></span>
+      </div>
+    </div>
+    <div class="group-version">
+      <span>
+        Checking version
+      </span>
+    </div>
+    <!-- You can also require other files to run in this process -->
+    <script src="./renderer.js"></script>
+  </body>
+</html>

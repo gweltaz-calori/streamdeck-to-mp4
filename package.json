@@ -1,0 +1,27 @@
+{
+  "name": "ytb-mp4",
+  "version": "1.0.0",
+  "description": "Youtube To mp4",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "author": "Gweltaz Calori",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^13.1.7",
+    "electron-builder": "^22.11.7"
+  },
+  "dependencies": {
+    "clipboardy": "^2.3.0",
+    "electron-packager": "^15.3.0",
+    "follow-redirects": "^1.14.1"
+  },
+  "build": {
+    "asarUnpack": [
+      "youtube-dl/youtube-dl.exe",
+      "ffmpeg/ffmpeg.exe"
+    ]
+  }
+}

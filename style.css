@@ -1,0 +1,63 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.progress {
+  width: 250px;
+  border-radius: 50px;
+  height: 10px;
+  overflow: hidden;
+  background: #bfbfbf;
+}
+
+.progress-inner {
+  width: 0%;
+  background-color: #1f1f1f;
+  height: 100%;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+.downloading {
+  margin-bottom: 10px;
+}
+
+.group span {
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.group-ytb {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+.group-ytb span {
+  margin-bottom: 10px;
+}
+
+.group-version {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
