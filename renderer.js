@@ -10,10 +10,6 @@ let $progressVersion = document.querySelector(".progress-text-version");
 let $progressInnerVersion = document.querySelector(".progress-inner-version");
 let $downloading = document.querySelector(".downloading");
 
-navigator.clipboard.readText().then((v) => {
-  ipcRenderer.send("clipboard", v);
-});
-
 ipcRenderer.on("progress", (evt, value) => {
   $progress.textContent = value + "%";
   $progressInner.style.width = value + "%";

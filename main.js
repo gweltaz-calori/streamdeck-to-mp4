@@ -1,6 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require("electron");
-const clipboardy = require("clipboardy");
+const { app, BrowserWindow, ipcMain, clipboard } = require("electron");
 const { exec, spawn } = require("child_process");
 const path = require("path");
 const fs = require("fs");
@@ -92,17 +91,13 @@ app.whenReady().then(() => {
     });
   });
 
-  let clipboard = null;
-
-  ipcMain.on("clipboard", (e, value) => {
-    clipboard = value;
-  });
+  let clipboardValue = clipboard.readText();
 
   function download() {
     const ytb = spawn(ytbPath, [
       "-f",
       "bestvideo+bestaudio/best",
-      clipboard,
+      clipboardValue,
       "--ffmpeg-location",
       ffmpegPath,
       "--merge-output-format",
