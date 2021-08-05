@@ -21,6 +21,7 @@
     "asarUnpack": [
       "youtube-dl/youtube-dl.exe",
       "ffmpeg/ffmpeg.exe"
-    ]
+    ],
+    "artifactName" : "streamdeck-to-mp4.${ext}"
   }
 }
