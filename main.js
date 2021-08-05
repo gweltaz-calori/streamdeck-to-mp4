@@ -13,6 +13,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 350,
     height: 200,
+    show: false,
     frame: false,
     webPreferences: {
       nodeIntegration: true,
@@ -20,6 +21,11 @@ function createWindow() {
     },
   });
   mainWindow.loadFile("index.html");
+
+  mainWindow.webContents.once("did-finish-load", () => {
+    mainWindow.show();
+    mainWindow.focus();
+  });
 }
 
 app.whenReady().then(() => {
