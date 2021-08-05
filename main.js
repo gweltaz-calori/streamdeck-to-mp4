@@ -52,50 +52,64 @@ app.whenReady().then(() => {
   }
 
   mainWindow.webContents.send("checking-version");
-  https.get("https://rg3.github.io/youtube-dl/update/versions.json", (res) => {
-    let rawData = "";
-    res.on("data", (chunk) => {
-      rawData += chunk;
-    });
-    res.on("end", (_) => {
-      let lastVersion = JSON.parse(rawData)["latest"].trim();
-      exec(`${ytbPath} --version`, (err, stdout) => {
-        stdout = stdout.trim();
-
-        if (lastVersion !== stdout) {
-          mainWindow.webContents.send(
-            "version-status",
-            VERSION_STATUS.NEED_UPDATE
-          );
-          const file = fs.createWriteStream(ytbPath);
-          https.get(`https://yt-dl.org/latest/youtube-dl.exe`, (response) => {
-            let total = parseInt(response.headers["content-length"]);
-            let received = 0;
-
-            response
-              .on("data", (chunk) => {
-                received += chunk.length;
-                mainWindow.webContents.send(
-                  "version-progress",
-                  ((received * 100) / total).toFixed(2)
-                );
-              })
-              .pipe(file)
-              .on("close", () => {
-                mainWindow.webContents.send("ytb-updated");
-                download();
-              });
-          });
-        } else {
-          mainWindow.webContents.send(
-            "version-status",
-            VERSION_STATUS.UP_TO_DATE
-          );
-          download();
-        }
+  https.get(
+    {
+      method: "GET",
+      host: "api.github.com",
+      path: "/repos/ytdl-org/youtube-dl/releases",
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36",
+      },
+    },
+    (res) => {
+      let rawData = "";
+      res.on("data", (chunk) => {
+        rawData += chunk;
       });
-    });
-  });
+      res.on("end", (_) => {
+        let lastVersion = JSON.parse(rawData)[0]["tag_name"].trim();
+        exec(`${ytbPath} --version`, (err, stdout) => {
+          stdout = stdout.trim();
+
+          if (lastVersion !== stdout) {
+            mainWindow.webContents.send(
+              "version-status",
+              VERSION_STATUS.NEED_UPDATE
+            );
+            const file = fs.createWriteStream(ytbPath);
+            https.get(
+              `https://github.com/ytdl-org/youtube-dl/releases/download/${lastVersion}/youtube-dl.exe`,
+              (response) => {
+                let total = parseInt(response.headers["content-length"]);
+                let received = 0;
+
+                response
+                  .on("data", (chunk) => {
+                    received += chunk.length;
+                    mainWindow.webContents.send(
+                      "version-progress",
+                      ((received * 100) / total).toFixed(2)
+                    );
+                  })
+                  .pipe(file)
+                  .on("close", () => {
+                    mainWindow.webContents.send("ytb-updated");
+                    download();
+                  });
+              }
+            );
+          } else {
+            mainWindow.webContents.send(
+              "version-status",
+              VERSION_STATUS.UP_TO_DATE
+            );
+            download();
+          }
+        });
+      });
+    }
+  );
 
   let clipboardValue = clipboard.readText();
 
